@@ -1,6 +1,6 @@
 import {Dispatcher} from "./Dispatcher";
-import {IAction} from "./AbstractAction";
-import {invariant} from "../utils/index";
+import {IAction} from "./Action";
+import {invariant} from "./utils";
 
 export class Actions {
     static dispatcher: Dispatcher<any> = null;
@@ -11,6 +11,7 @@ export class Actions {
     }
 
     static createDispatcher<Store>(store: Store): Dispatcher<Store> {
+        invariant(Actions.dispatcher !== null, `a dispatcher was already created. cannot create another instance.`);
         Actions.dispatcher = Dispatcher.create<Store>(store);
         return Actions.dispatcher;
     }

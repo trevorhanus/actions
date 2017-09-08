@@ -1,4 +1,4 @@
-import {IAction} from './AbstractAction';
+import {IAction} from './Action';
 import {ITimer, Timer} from '@trevorhanus/timer';
 
 export interface IThrottleManager {

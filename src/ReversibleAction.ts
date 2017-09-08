@@ -1,5 +1,5 @@
-import {invariant} from '../utils';
-import {IAction, AbstractAction} from './AbstractAction';
+import {invariant} from './utils';
+import {IAction, Action} from './Action';
 
 export interface IReversibleAction<Store, Params> extends IAction<Store, Params> {
     isReversible: boolean;
@@ -8,13 +8,13 @@ export interface IReversibleAction<Store, Params> extends IAction<Store, Params>
     appendDebounceParams: (params: Params) => void;
 }
 
-export abstract class AbstractReversibleAction<Store, Params> extends AbstractAction<Store, Params> implements IReversibleAction<Store, Params> {
+export abstract class ReversibleAction<Store, Params> extends Action<Store, Params> implements IReversibleAction<Store, Params> {
     isReversible: boolean;
     private _lastInvokationType: 'none' | 'invoke' | 'undo' | 'redo';
     private _wasInvoked: boolean;
 
-    constructor() {
-        super();
+    constructor(params?: Params) {
+        super(params);
         this.isReversible = true;
         this._lastInvokationType = 'none';
         this._wasInvoked = false;

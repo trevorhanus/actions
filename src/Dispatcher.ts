@@ -1,12 +1,12 @@
 import {action, computed} from 'mobx';
 import {ActionError} from './ActionError';
 import {DebounceManager, IDebounceManager} from "./DebounceManager";
-import {IAction} from './AbstractAction';
-import {IReversibleAction} from "./AbstractreversibleAction";
+import {IAction} from './Action';
+import {IReversibleAction} from "./ReversibleAction";
 import {isNullOrUndefined} from "util";
 import {IThrottleManager, ThrottleManager} from './ThrottleManager';
 import {IUndoManager, UndoManager} from './UndoManager';
-import {warn} from '../utils';
+import {warn} from './utils';
 
 export interface IDispatcher<Store> {
     dispatch: (action: IAction<Store, any>, options?: DispatchOptions) => void;

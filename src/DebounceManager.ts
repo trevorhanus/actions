@@ -1,6 +1,6 @@
 import {IUndoManager} from "./UndoManager";
 import {Timer} from '@trevorhanus/timer';
-import {IReversibleAction} from "./AbstractreversibleAction";
+import {IReversibleAction} from "./ReversibleAction";
 
 export interface IDebounceManager {
     isDebounced: (action: IReversibleAction<any, any>) => boolean;

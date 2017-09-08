@@ -8,16 +8,17 @@ export interface IAction<Store, Params> {
     invoke: (store: Store) => any;
 }
 
-export abstract class AbstractAction<Store, Params> implements IAction<Store, Params> {
+export abstract class Action<Store, Params> implements IAction<Store, Params> {
     id: string;
     isReversible: boolean;
     params: Params;
-    abstract name: string;
+    name: string;
 
-    constructor(params?: any) {
+    constructor(params?: Params) {
         this.id = uuidv4();
         this.isReversible = false;
         this.params = params;
+        this.name = 'snow';
     }
 
     invoke(store: Store): any {

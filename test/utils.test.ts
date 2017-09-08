@@ -1,5 +1,5 @@
 import {expect} from 'chai';
-import {isNullOrUndefined} from "../../src/utils/index";
+import {isNullOrUndefined} from "../src/utils";
 
 describe('Utils', () => {
 
