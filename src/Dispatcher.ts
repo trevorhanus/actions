@@ -1,22 +1,22 @@
-import {action, computed} from 'mobx';
-import {ActionError} from './ActionError';
-import {DebounceManager, IDebounceManager} from "./DebounceManager";
-import {IAction} from './Action';
-import {IReversibleAction} from "./ReversibleAction";
-import {isNullOrUndefined} from "util";
-import {IThrottleManager, ThrottleManager} from './ThrottleManager';
-import {IUndoManager, UndoManager} from './UndoManager';
-import {warn} from './utils';
+import { action, computed } from 'mobx';
+import { ActionError } from './ActionError';
+import { DebounceManager, IDebounceManager } from "./DebounceManager";
+import { IAction } from './Action';
+import { IReversibleAction } from "./ReversibleAction";
+import { isNullOrUndefined } from "util";
+import { IThrottleManager, ThrottleManager } from './ThrottleManager';
+import { IUndoManager, UndoManager } from './UndoManager';
+import { warn } from './utils';
 
 export interface IDispatcher<Store> {
-    dispatch: (action: IAction<Store, any>, options?: DispatchOptions) => void;
+    dispatch: (action: IAction<Store, any>, options?: IDispatchOptions) => void;
     undo: () => void;
     redo: () => void;
     canUndo: boolean;
     canRedo: boolean;
 }
 
-export interface DispatchOptions {
+export interface IDispatchOptions {
     debounce?: number;
     throttle?: number;
 }
@@ -34,11 +34,11 @@ export class Dispatcher<Store> implements IDispatcher<Store> {
         this._debounceManager = debounceManager;
     }
 
-    public dispatch(action: IAction<Store, any>, options?: DispatchOptions) {
+    public dispatch(action: IAction<Store, any>, options?: IDispatchOptions) {
         // return immediately if this action is throttled
         if (this._throttleManager.isThrottled(action)) return;
 
-        const {debounce, throttle} = options || {debounce: null, throttle: null};
+        const { debounce, throttle } = options || { debounce: null, throttle: null };
 
         let result: any;
         try {
