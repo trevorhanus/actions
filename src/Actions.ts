@@ -1,8 +1,9 @@
-import {Dispatcher} from "./Dispatcher";
-import {IAction} from "./Action";
-import {invariant} from "./utils";
+import { IAction } from "./Action";
+import { Dispatcher } from "./Dispatcher";
+import { invariant } from "./utils";
 
 export class Actions {
+
     static dispatcher: Dispatcher<any> = null;
 
     static dispatch(action: IAction<any, any>) {

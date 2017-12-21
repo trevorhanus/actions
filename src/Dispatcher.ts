@@ -1,15 +1,17 @@
 import { action, computed } from 'mobx';
-import { ActionError } from './ActionError';
-import { DebounceManager, IDebounceManager } from "./DebounceManager";
+import { isNullOrUndefined } from 'util';
 import { IAction } from './Action';
-import { IReversibleAction } from "./ReversibleAction";
-import { isNullOrUndefined } from "util";
+import { ActionError } from './ActionError';
+import { DebounceManager, IDebounceManager } from './DebounceManager';
+import { IReversibleAction } from './ReversibleAction';
 import { IThrottleManager, ThrottleManager } from './ThrottleManager';
 import { IUndoManager, UndoManager } from './UndoManager';
 import { warn } from './utils';
+import { IAsyncAction } from './AsyncAction';
 
 export interface IDispatcher<Store> {
-    dispatch: (action: IAction<Store, any>, options?: IDispatchOptions) => void;
+    dispatch: (action: IAction<Store, any>, options?: IDispatchOptions) => any;
+    dispatchAsync: (action: IAction<Store, any>, options?: IDispatchOptions) => Promise<any>;
     undo: () => void;
     redo: () => void;
     canUndo: boolean;
@@ -34,7 +36,7 @@ export class Dispatcher<Store> implements IDispatcher<Store> {
         this._debounceManager = debounceManager;
     }
 
-    public dispatch(action: IAction<Store, any>, options?: IDispatchOptions) {
+    public dispatch(action: IAction<Store, any>, options?: IDispatchOptions): any {
         // return immediately if this action is throttled
         if (this._throttleManager.isThrottled(action)) return;
 
@@ -71,6 +73,10 @@ export class Dispatcher<Store> implements IDispatcher<Store> {
                 throw e;
             }
         }
+    }
+
+    public dispatchAsync(action: IAsyncAction<Store, any>, options?: IDispatchOptions): Promise<any> {
+        return this.dispatch(action, options);
     }
 
     @computed
