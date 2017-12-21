@@ -18,7 +18,7 @@ describe('AsyncAction', () => {
         dispatcher = new Dispatcher({}, undoManager, throttleManager, debounceManager);
     });
 
-    it('can dispatch', () => {
+    it('dispatch returns a promise', () => {
 
         class SimpleTimer extends AsyncAction<{}, {}> {
 
@@ -40,5 +40,23 @@ describe('AsyncAction', () => {
             .catch(e => {
                 throw e;
             });
+    });
+
+    it('can run as async', async () => {
+        class SimpleTimer extends AsyncAction<{}, {}> {
+
+            invoke(): Promise<string> {
+                return new Promise(resolve => {
+
+                    setTimeout(() => {
+                        resolve('success');
+                    }, 5);
+                });
+            }
+        }
+
+        const action = new SimpleTimer();
+        const resp = await dispatcher.dispatchAsync(action);
+        expect(resp).to.equal('success');
     });
 });
