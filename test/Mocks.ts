@@ -1,8 +1,8 @@
 import * as sinon from 'sinon';
 import {v4 as uuidv4} from 'uuid';
 import {SinonStub} from "sinon";
-import {IAction} from "../src/Action";
-import {IReversibleAction} from "../src/ReversibleAction";
+import {IAction} from "../src/action-types/Action";
+import {IReversibleAction} from "../src/action-types/ReversibleAction";
 
 export class MockAction implements IAction<any, any> {
     id: string;

@@ -1,19 +1,17 @@
 import { action, computed } from 'mobx';
 import { isNullOrUndefined } from 'util';
-import { IAction } from './Action';
-import { ActionError } from './ActionError';
+import { IAction } from './action-types/Action';
+import { IAsyncAction } from './action-types/AsyncAction';
 import { DebounceManager, IDebounceManager } from './DebounceManager';
-import { IReversibleAction } from './ReversibleAction';
+import { IReversibleAction } from './action-types/ReversibleAction';
 import { IThrottleManager, ThrottleManager } from './ThrottleManager';
 import { IUndoManager, UndoManager } from './UndoManager';
-import { warn } from './utils';
-import { IAsyncAction } from './AsyncAction';
 
 export interface IDispatcher<Store> {
     dispatch: (action: IAction<Store, any>, options?: IDispatchOptions) => any;
     dispatchAsync: (action: IAction<Store, any>, options?: IDispatchOptions) => Promise<any>;
-    undo: () => void;
-    redo: () => void;
+    undo: () => any;
+    redo: () => any;
     canUndo: boolean;
     canRedo: boolean;
 }
@@ -42,37 +40,27 @@ export class Dispatcher<Store> implements IDispatcher<Store> {
 
         const { debounce, throttle } = options || { debounce: null, throttle: null };
 
-        let result: any;
-        try {
-            result = action.invoke(this._store);
+        const result = action.invoke(this._store);
 
-            if (!isNullOrUndefined(throttle)) {
-                // register this action with the throttle manager
-                // that way if it is dispatched again within the throttle period
-                // it will not be invoked
-                this._throttleManager.throttle(action, throttle);
-            }
-
-            // debouncing
-            if (!isNullOrUndefined(debounce) && action.isReversible) {
-                this._debounceManager.debounce(action as IReversibleAction<Store, any>, debounce);
-            }
-
-            // not debouncing
-            if (isNullOrUndefined(debounce) && action.isReversible) {
-                this._undoManager.registerAction(action as IReversibleAction<Store, any>);
-            }
-
-            return result;
-
-        } catch (e) {
-            if (e instanceof ActionError) {
-                warn(e.message);
-            } else {
-                // some unexpected error
-                throw e;
-            }
+        if (!isNullOrUndefined(throttle)) {
+            // register this action with the throttle manager
+            // that way if it is dispatched again within the throttle period
+            // it will not be invoked
+            this._throttleManager.throttle(action, throttle);
         }
+
+        // debouncing
+        if (!isNullOrUndefined(debounce) && action.isReversible) {
+            this._debounceManager.debounce(action as IReversibleAction<Store, any>, debounce);
+        }
+
+        // not debouncing
+        if (isNullOrUndefined(debounce) && action.isReversible) {
+            this._undoManager.registerAction(action as IReversibleAction<Store, any>);
+        }
+
+        return result;
+
     }
 
     public dispatchAsync(action: IAsyncAction<Store, any>, options?: IDispatchOptions): Promise<any> {
@@ -90,13 +78,13 @@ export class Dispatcher<Store> implements IDispatcher<Store> {
     }
 
     @action
-    public undo(): void {
-        this._undoManager.undo(this._store);
+    public undo(): any {
+        return this._undoManager.undo(this._store);
     }
 
     @action
-    public redo(): void {
-        this._undoManager.redo(this._store);
+    public redo(): any {
+        return this._undoManager.redo(this._store);
     }
 
     static create<Store>(store: Store): Dispatcher<Store> {

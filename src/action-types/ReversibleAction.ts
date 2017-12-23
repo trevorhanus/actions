@@ -1,10 +1,10 @@
-import {invariant} from './utils';
+import {invariant} from '../utils';
 import {IAction, Action} from './Action';
 
 export interface IReversibleAction<Store, Params> extends IAction<Store, Params> {
     isReversible: boolean;
-    undo: (store: Store) => void;
-    redo: (store: Store) => void;
+    undo: (store: Store) => any;
+    redo: (store: Store) => any;
     appendDebounceParams: (params: Params) => void;
 }
 
@@ -20,19 +20,19 @@ export abstract class ReversibleAction<Store, Params> extends Action<Store, Para
         this._wasInvoked = false;
     }
 
-    invoke(store: Store): void {
+    invoke(store: Store): any {
         invariant(this._wasInvoked, `invoke method on Action ${this.name} was called more than once.`);
         this._wasInvoked = true;
         this._lastInvokationType = 'invoke';
     }
 
-    undo(store: Store): void {
+    undo(store: Store): any {
         invariant(!this._wasInvoked, `action ${this.name} cannot be undone before it was inovoked`);
         invariant(this._lastInvokationType === 'undo', `action ${this.name} cannot be undone after it was just undone`);
         this._lastInvokationType = 'undo';
     }
 
-    redo(store: Store): void {
+    redo(store: Store): any {
         invariant(!this._wasInvoked, `action ${this.name} cannot be redone before it was inovoked`);
         invariant(this._lastInvokationType !== 'undo', `action ${this.name} cannot be redone before it was ever undone`);
         this._lastInvokationType = 'redo';

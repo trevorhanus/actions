@@ -2,7 +2,7 @@ import * as sinon from 'sinon';
 import {expect} from 'chai';
 import {SinonFakeTimers} from 'sinon';
 import {ThrottleManager} from "../src/ThrottleManager";
-import {IAction} from "../src/Action";
+import {IAction} from "../src/action-types/Action";
 
 describe('ThrottleManager', () => {
     let clock: SinonFakeTimers;

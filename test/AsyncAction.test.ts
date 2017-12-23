@@ -3,7 +3,7 @@ import {Dispatcher, IDispatcher} from '../src/Dispatcher';
 import {IUndoManager, UndoManager} from "../src/UndoManager";
 import {IThrottleManager, ThrottleManager} from "../src/ThrottleManager";
 import {IDebounceManager, DebounceManager} from "../src/DebounceManager";
-import { AsyncAction } from '../src/AsyncAction';
+import { AsyncAction } from '../src/action-types/AsyncAction';
 
 describe('AsyncAction', () => {
     let undoManager: IUndoManager<any>;

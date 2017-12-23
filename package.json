@@ -1,11 +1,13 @@
 {
     "name": "@trevorhanus/actions",
-    "version": "0.0.5",
+    "version": "0.0.11",
     "description": "An action management framework",
     "main": "dist/index.js",
     "types": "dist/index.d.ts",
     "scripts": {
-        "test": "mocha --reporter spec --watch --compilers ts:ts-node/register ./test/**/*.test.ts --recursive"
+        "test": "mocha --reporter spec --watch --compilers ts:ts-node/register ./test/**/*.test.ts --recursive",
+        "build": "tsc -p tsconfig.build.json",
+        "prepublishOnly": "npm run build"
     },
     "author": "Trevor Hanus",
     "license": "ISC",

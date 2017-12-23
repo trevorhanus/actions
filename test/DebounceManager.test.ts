@@ -5,7 +5,7 @@ import {SinonFakeTimers, SinonStub} from 'sinon';
 import {ThrottleManager} from "../src/ThrottleManager";
 import {DebounceManager} from "../src/DebounceManager";
 import {IUndoManager, UndoManager} from "../src/UndoManager";
-import {IReversibleAction} from "../src/ReversibleAction";
+import {IReversibleAction} from "../src/action-types/ReversibleAction";
 import {MockReversibleAction} from "./Mocks";
 
 describe('ThrottleManager', () => {

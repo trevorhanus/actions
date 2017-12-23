@@ -1,4 +1,4 @@
-import { IAction } from "./Action";
+import { IAction } from "./action-types/Action";
 import { Dispatcher } from "./Dispatcher";
 import { invariant } from "./utils";
 
@@ -6,9 +6,9 @@ export class Actions {
 
     static dispatcher: Dispatcher<any> = null;
 
-    static dispatch(action: IAction<any, any>) {
+    static dispatch(action: IAction<any, any>): any {
         invariant(Actions.dispatcher === null, `the dispatcher has not been created. You must call Actions.createDispatcher() before you can dispatch any actions.`);
-        Actions.dispatcher.dispatch(action);
+        return Actions.dispatcher.dispatch(action);
     }
 
     static createDispatcher<Store>(store: Store): Dispatcher<Store> {
@@ -18,6 +18,6 @@ export class Actions {
     }
 }
 
-export function dispatch(action: IAction<any, any>) {
+export function dispatch(action: IAction<any, any>): any {
     return Actions.dispatch(action);
 }

@@ -1,5 +1,5 @@
 import {observable, computed, action, IObservableArray} from 'mobx';
-import {IReversibleAction} from './ReversibleAction';
+import {IReversibleAction} from './action-types/ReversibleAction';
 
 export interface IUndoManager<Store> {
     canRedo: boolean;

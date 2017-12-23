@@ -1,7 +1,8 @@
 import { Dispatcher, IDispatchOptions } from './Dispatcher';
 import { Actions, dispatch } from './Actions';
-import { IAction, Action } from './Action';
-import { ReversibleAction as ReversibleAction } from './ReversibleAction';
+import { IAction, Action } from './action-types/Action';
+import { ReversibleAction } from './action-types/ReversibleAction';
+import { AsyncAction } from './action-types/AsyncAction';
 
 export {
     Actions,
@@ -10,5 +11,6 @@ export {
     IDispatchOptions,
     Action,
     IAction,
-    ReversibleAction
+    ReversibleAction,
+    AsyncAction,
 }
